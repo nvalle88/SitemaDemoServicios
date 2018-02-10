@@ -9,9 +9,12 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SistemaDemoServicios;
+using System.Threading.Tasks;
 
 namespace SistemaDemoServicios.Controllers.API
 {
+
+    [RoutePrefix("api/Visitas")]
     public class VisitasController : ApiController
     {
         private SistemaEjemploEntities db = new SistemaEjemploEntities();
@@ -20,6 +23,19 @@ namespace SistemaDemoServicios.Controllers.API
         public IQueryable<Visita> GetVisita()
         {
             return db.Visita;
+        }
+
+        [HttpPost]
+        [Route("GetVisitasDiarias")]
+        public async Task<List<Visita>> GetVisitasDiarias([FromBody] Agente agente)
+        {
+            DateTime fechaActual = DateTime.Now;
+            var listaVisitas = await db.Visita
+                             .Where(x => x.IdAgente == agente.Id
+                                   && (x.Fecha.Value.Day == fechaActual.Day
+                                       && x.Fecha.Value.Month == fechaActual.Month
+                                       && x.Fecha.Value.Year == fechaActual.Year)).OrderBy(x => x.Fecha).ToListAsync();
+            return listaVisitas;
         }
 
         // GET: api/Visitas/5

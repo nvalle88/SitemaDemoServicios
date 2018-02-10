@@ -1,40 +1,39 @@
-﻿using System;
+﻿using SistemaDemoServicios.Utils;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using SistemaDemoServicios;
 
 namespace SistemaDemoServicios.Controllers.API
 {
+    [RoutePrefix("api/Agentes")]
+
     public class AgentesController : ApiController
     {
         private SistemaEjemploEntities db = new SistemaEjemploEntities();
 
         // GET: api/Agentes
-        public IQueryable<Agente> GetAgente()
+        [Route("GetAgentes")]
+        public async Task<List<Agente>> GetAgentes()
         {
-            return db.Agente;
+            return await db.Agente.ToListAsync();
         }
-        public void hola()
-        { }
-
-        // GET: api/Agentes/5
-        [ResponseType(typeof(Agente))]
-        public IHttpActionResult GetAgente(int id)
+      
+        [HttpPost]
+        [Route("GetAgente")]
+        public async Task<Response> GetAgente([FromBody] Agente agente)
         {
-            Agente agente = db.Agente.Find(id);
-            if (agente == null)
+            var resultAgente =await db.Agente.Where(x=>x.Id==agente.Id).FirstOrDefaultAsync();
+            if (resultAgente == null)
             {
-                return NotFound();
+                return new Response { IsSuccess=false};
             }
 
-            return Ok(agente);
+            return new Response { IsSuccess = true, Result = resultAgente };
         }
 
         // PUT: api/Agentes/5
