@@ -21,6 +21,8 @@ namespace SistemaDemoServicios.Controllers.API
         {
             return db.Agente;
         }
+        public void hola()
+        { }
 
         // GET: api/Agentes/5
         [ResponseType(typeof(Agente))]
