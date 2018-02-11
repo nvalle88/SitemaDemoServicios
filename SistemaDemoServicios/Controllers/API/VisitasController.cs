@@ -34,7 +34,7 @@ namespace SistemaDemoServicios.Controllers.API
                              .Where(x => x.IdAgente == agente.Id
                                    && (x.Fecha.Value.Day == fechaActual.Day
                                        && x.Fecha.Value.Month == fechaActual.Month
-                                       && x.Fecha.Value.Year == fechaActual.Year)).OrderBy(x => x.Fecha).ToListAsync();
+                                       && x.Fecha.Value.Year == fechaActual.Year)).Include(x=>x.Cliente).OrderBy(x => x.Fecha).ToListAsync();
             return listaVisitas;
         }
 
