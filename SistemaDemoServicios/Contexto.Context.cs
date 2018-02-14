@@ -28,5 +28,6 @@ namespace SistemaDemoServicios
         public virtual DbSet<Agente> Agente { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Visita> Visita { get; set; }
+        public virtual DbSet<LogPosition> LogPosition { get; set; }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SistemaEjemploModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SistemaEjemploModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Agente">
           <Key>
             <PropertyRef Name="Id" />
@@ -21,6 +21,19 @@
           <Property Name="Telefono" Type="varchar" MaxLength="50" />
           <Property Name="Lat" Type="float" Nullable="false" />
           <Property Name="Lon" Type="float" Nullable="false" />
+          <Property Name="Ruc" Type="nchar" MaxLength="13" />
+          <Property Name="Direccion" Type="varchar" MaxLength="100" />
+          <Property Name="PersonaContacto" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="LogPosition">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idAgente" Type="int" />
+          <Property Name="Lat" Type="float" />
+          <Property Name="Lon" Type="float" />
+          <Property Name="Fecha" Type="datetime" />
         </EntityType>
         <EntityType Name="Visita">
           <Key>
@@ -31,7 +44,21 @@
           <Property Name="IdAgente" Type="int" />
           <Property Name="Fecha" Type="datetime" />
           <Property Name="Observacion" Type="varchar" MaxLength="150" />
+          <Property Name="Tipo" Type="int" />
+          <Property Name="Valor" Type="float" />
         </EntityType>
+        <Association Name="FK_LogPosition_Agente">
+          <End Role="Agente" Type="Self.Agente" Multiplicity="0..1" />
+          <End Role="LogPosition" Type="Self.LogPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LogPosition">
+              <PropertyRef Name="idAgente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Visita_Agente">
           <End Role="Agente" Type="Self.Agente" Multiplicity="0..1" />
           <End Role="Visita" Type="Self.Visita" Multiplicity="*" />
@@ -59,7 +86,12 @@
         <EntityContainer Name="SistemaEjemploModelStoreContainer">
           <EntitySet Name="Agente" EntityType="Self.Agente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogPosition" EntityType="Self.LogPosition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Visita" EntityType="Self.Visita" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_LogPosition_Agente" Association="Self.FK_LogPosition_Agente">
+            <End Role="Agente" EntitySet="Agente" />
+            <End Role="LogPosition" EntitySet="LogPosition" />
+          </AssociationSet>
           <AssociationSet Name="FK_Visita_Agente" Association="Self.FK_Visita_Agente">
             <End Role="Agente" EntitySet="Agente" />
             <End Role="Visita" EntitySet="Visita" />
@@ -69,8 +101,7 @@
             <End Role="Visita" EntitySet="Visita" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SistemaEjemploModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -81,6 +112,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Visita" Relationship="Self.FK_Visita_Agente" FromRole="Agente" ToRole="Visita" />
+          <NavigationProperty Name="LogPosition" Relationship="SistemaEjemploModel.FK_LogPosition_Agente" FromRole="Agente" ToRole="LogPosition" />
         </EntityType>
         <EntityType Name="Cliente">
           <Key>
@@ -92,6 +124,9 @@
           <Property Name="Lat" Type="Double" Nullable="false" />
           <Property Name="Lon" Type="Double" Nullable="false" />
           <NavigationProperty Name="Visita" Relationship="Self.FK_Visita_Cliente" FromRole="Cliente" ToRole="Visita" />
+          <Property Name="Ruc" Type="String" MaxLength="13" FixedLength="true" Unicode="true" />
+          <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PersonaContacto" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Visita">
           <Key>
@@ -104,6 +139,8 @@
           <Property Name="Observacion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Agente" Relationship="Self.FK_Visita_Agente" FromRole="Visita" ToRole="Agente" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK_Visita_Cliente" FromRole="Visita" ToRole="Cliente" />
+          <Property Name="Tipo" Type="Int32" />
+          <Property Name="Valor" Type="Double" />
         </EntityType>
         <Association Name="FK_Visita_Agente">
           <End Role="Agente" Type="Self.Agente" Multiplicity="0..1" />
@@ -141,7 +178,35 @@
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Visita" EntitySet="Visita" />
           </AssociationSet>
+          <EntitySet Name="LogPosition" EntityType="SistemaEjemploModel.LogPosition" />
+          <AssociationSet Name="FK_LogPosition_Agente" Association="SistemaEjemploModel.FK_LogPosition_Agente">
+            <End Role="Agente" EntitySet="Agente" />
+            <End Role="LogPosition" EntitySet="LogPosition" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="LogPosition">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idAgente" Type="Int32" />
+          <Property Name="Lat" Type="Double" />
+          <Property Name="Lon" Type="Double" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Agente" Relationship="SistemaEjemploModel.FK_LogPosition_Agente" FromRole="LogPosition" ToRole="Agente" />
+        </EntityType>
+        <Association Name="FK_LogPosition_Agente">
+          <End Type="SistemaEjemploModel.Agente" Role="Agente" Multiplicity="0..1" />
+          <End Type="SistemaEjemploModel.LogPosition" Role="LogPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LogPosition">
+              <PropertyRef Name="idAgente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -159,6 +224,9 @@
           <EntitySetMapping Name="Cliente">
             <EntityTypeMapping TypeName="SistemaEjemploModel.Cliente">
               <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="PersonaContacto" ColumnName="PersonaContacto" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Ruc" ColumnName="Ruc" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
@@ -170,11 +238,24 @@
           <EntitySetMapping Name="Visita">
             <EntityTypeMapping TypeName="SistemaEjemploModel.Visita">
               <MappingFragment StoreEntitySet="Visita">
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="IdAgente" ColumnName="IdAgente" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogPosition">
+            <EntityTypeMapping TypeName="SistemaEjemploModel.LogPosition">
+              <MappingFragment StoreEntitySet="LogPosition">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Lon" ColumnName="Lon" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="idAgente" ColumnName="idAgente" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

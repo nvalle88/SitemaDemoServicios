@@ -25,6 +25,9 @@ namespace SistemaDemoServicios
         public string Telefono { get; set; }
         public double Lat { get; set; }
         public double Lon { get; set; }
+        public string Ruc { get; set; }
+        public string Direccion { get; set; }
+        public string PersonaContacto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Visita> Visita { get; set; }

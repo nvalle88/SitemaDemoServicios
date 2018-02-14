@@ -12,17 +12,14 @@ namespace SistemaDemoServicios
     using System;
     using System.Collections.Generic;
     
-    public partial class Visita
+    public partial class LogPosition
     {
-        public int Id { get; set; }
-        public Nullable<int> IdCliente { get; set; }
-        public Nullable<int> IdAgente { get; set; }
+        public int id { get; set; }
+        public Nullable<int> idAgente { get; set; }
+        public Nullable<double> Lat { get; set; }
+        public Nullable<double> Lon { get; set; }
         public DateTime Fecha { get; set; }
-        public string Observacion { get; set; }
-        public Nullable<int> Tipo { get; set; }
-        public Nullable<double> Valor { get; set; }
     
         public virtual Agente Agente { get; set; }
-        public virtual Cliente Cliente { get; set; }
     }
 }

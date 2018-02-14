@@ -18,6 +18,7 @@ namespace SistemaDemoServicios
         public Agente()
         {
             this.Visita = new HashSet<Visita>();
+            this.LogPosition = new HashSet<LogPosition>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace SistemaDemoServicios
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Visita> Visita { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LogPosition> LogPosition { get; set; }
     }
 }

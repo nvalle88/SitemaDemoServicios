@@ -10,6 +10,8 @@
         <EntityTypeShape EntityType="SistemaEjemploModel.Visita" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="SistemaEjemploModel.FK_Visita_Agente" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaEjemploModel.FK_Visita_Cliente" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SistemaEjemploModel.LogPosition" Width="1.5" PointX="3" PointY="5.125" />
+        <AssociationConnector Association="SistemaEjemploModel.FK_LogPosition_Agente" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

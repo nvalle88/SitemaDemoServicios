@@ -191,6 +191,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="LogPosition.cs">
+      <DependentUpon>Contexto.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Response.cs" />
     <Compile Include="Visita.cs">
