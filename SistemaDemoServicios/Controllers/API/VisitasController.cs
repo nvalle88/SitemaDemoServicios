@@ -32,9 +32,12 @@ namespace SistemaDemoServicios.Controllers.API
             DateTime fechaActual = DateTime.Now;
             var listaVisitas = await db.Visita
                              .Where(x => x.IdAgente == agente.Id
-                                   && (x.Fecha.Value.Day == fechaActual.Day
-                                       && x.Fecha.Value.Month == fechaActual.Month
-                                       && x.Fecha.Value.Year == fechaActual.Year)).Include(x=>x.Cliente).OrderBy(x => x.Fecha).ToListAsync();
+                                && x.Fecha.Day==fechaActual.Day 
+                                && x.Fecha.Month==fechaActual.Month   
+                                && x.Fecha.Year==fechaActual.Year)
+                             .Include(x=>x.Cliente)
+                             .OrderBy(x => x.Fecha)
+                             .ToListAsync();
             return listaVisitas;
         }
 
