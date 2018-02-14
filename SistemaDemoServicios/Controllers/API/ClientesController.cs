@@ -6,12 +6,18 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SistemaDemoServicios;
+using SistemaDemoServicios.Models;
+using SistemaDemoServicios.Utils;
+using SistemaDemoServicios.Utils.GeoUtils;
 
 namespace SistemaDemoServicios.Controllers.API
 {
+    [RoutePrefix("api/Clientes")]
+
     public class ClientesController : ApiController
     {
         private SistemaEjemploEntities db = new SistemaEjemploEntities();
@@ -81,6 +87,31 @@ namespace SistemaDemoServicios.Controllers.API
 
             return CreatedAtRoute("DefaultApi", new { id = cliente.Id }, cliente);
         }
+
+        [ResponseType(typeof(Cliente))]
+        [HttpPost]
+        [Route("GetNearClients")]
+        public async Task<List<Cliente>> GetClientForPosition(Position posicion)
+        {
+            var clientes = await db.Cliente.ToListAsync();
+            List<Cliente> Clientes = new List<Cliente>();
+
+            foreach (var cliente in clientes)
+            {
+                var cposition = new Position
+                {
+                latitude=cliente.Lat,
+                longitude=cliente.Lon               
+                };
+                if (GeoUtils.EstaCercaDeMi(posicion, cposition,50))
+                {
+                    Clientes.Add(cliente);
+                }
+            }
+            return Clientes;
+        }
+
+
 
         // DELETE: api/Clientes/5
         [ResponseType(typeof(Cliente))]
