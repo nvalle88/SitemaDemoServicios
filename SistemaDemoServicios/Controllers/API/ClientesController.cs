@@ -15,13 +15,11 @@ namespace SistemaDemoServicios.Controllers.API
     public class ClientesController : ApiController
     {
         private SistemaEjemploEntities db = new SistemaEjemploEntities();
-
         // GET: api/Clientes
         public IQueryable<Cliente> GetCliente()
         {
             return db.Cliente;
         }
-
         // GET: api/Clientes/5
         [ResponseType(typeof(Cliente))]
         public IHttpActionResult GetCliente(int id)
@@ -31,7 +29,6 @@ namespace SistemaDemoServicios.Controllers.API
             {
                 return NotFound();
             }
-
             return Ok(cliente);
         }
 
