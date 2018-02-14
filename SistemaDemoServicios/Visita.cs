@@ -17,7 +17,7 @@ namespace SistemaDemoServicios
         public int Id { get; set; }
         public Nullable<int> IdCliente { get; set; }
         public Nullable<int> IdAgente { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
+        public System.DateTime Fecha { get; set; }
         public string Observacion { get; set; }
     
         public virtual Agente Agente { get; set; }
