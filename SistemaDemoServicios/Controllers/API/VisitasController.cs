@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using SistemaDemoServicios;
 using System.Threading.Tasks;
+using SistemaDemoServicios.Utils;
 
 namespace SistemaDemoServicios.Controllers.API
 {
@@ -103,6 +104,38 @@ namespace SistemaDemoServicios.Controllers.API
 
             return CreatedAtRoute("DefaultApi", new { id = visita.Id }, visita);
         }
+
+
+        // POST: api/Visitas
+        [ResponseType(typeof(Visita))]
+        [HttpPost]
+        [Route("PostCheckin")]
+        public Response PostCheckin(Visita visita)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new Response
+                {
+                    IsSuccess=false,
+                    Result= BadRequest(ModelState),
+                    Message="Error"
+
+                };
+            }
+
+            db.Visita.Add(visita);
+            db.SaveChanges();
+
+
+
+             CreatedAtRoute("DefaultApi", new { id = visita.Id }, visita);
+            return new Response
+            {
+                IsSuccess = true,
+                Message = "Ok",
+            };
+        }
+
 
         // DELETE: api/Visitas/5
         [ResponseType(typeof(Visita))]
