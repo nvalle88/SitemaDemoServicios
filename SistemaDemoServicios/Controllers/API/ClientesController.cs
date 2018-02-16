@@ -103,7 +103,7 @@ namespace SistemaDemoServicios.Controllers.API
                 latitude=cliente.Lat,
                 longitude=cliente.Lon               
                 };
-                if (GeoUtils.EstaCercaDeMi(posicion, cposition,50))
+                if (GeoUtils.EstaCercaDeMi(posicion, cposition,0.05))
                 {
                     Clientes.Add(cliente);
                 }
