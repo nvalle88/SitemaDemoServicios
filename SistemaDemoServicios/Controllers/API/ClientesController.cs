@@ -22,10 +22,40 @@ namespace SistemaDemoServicios.Controllers.API
     {
         private SistemaEjemploEntities db = new SistemaEjemploEntities();
         // GET: api/Clientes
-        public IQueryable<Cliente> GetCliente()
+        [HttpGet]
+        public async Task <List<ClienteRequest>> GetCliente()
         {
-            return db.Cliente;
+            List<ClienteRequest> ClientesRequest = new List<ClienteRequest>();
+            var clientes = await db.Cliente.ToListAsync();
+            foreach (Cliente cliente in clientes)
+            {
+                if (cliente != null)
+                {
+
+                    ClienteRequest clienteRequest = new ClienteRequest
+                    {
+                        Id = cliente.Id,
+                        Direccion =cliente.Direccion,
+                        Lat = cliente.Lat,
+                        Lon = cliente.Lon,
+                        Nombre=cliente.Nombre,
+                        Ruc=cliente.Ruc,
+                        PersonaContacto=cliente.PersonaContacto,
+                        Telefono=cliente.Telefono
+                    };
+                    ClientesRequest.Add(clienteRequest);
+                }
+            }
+            return ClientesRequest;
         }
+       // [Route("Getcliente")]
+       // [HttpGet]
+       // public async Task<List<ClienteRequest>> GetallCliente()
+       // {
+       //    var clientes= await db.Cliente.ToListAsync();
+       //     foreach (Plaza plaza in PlazaDB)
+       //     {
+       //}
         // GET: api/Clientes/5
         [ResponseType(typeof(Cliente))]
         public IHttpActionResult GetCliente(int id)
@@ -103,7 +133,7 @@ namespace SistemaDemoServicios.Controllers.API
                 latitude=cliente.Lat,
                 longitude=cliente.Lon               
                 };
-                if (GeoUtils.EstaCercaDeMi(posicion, cposition,0.05))
+                if (GeoUtils.EstaCercaDeMi(posicion, cposition,0.1))
                 {
                     Clientes.Add(cliente);
                 }
