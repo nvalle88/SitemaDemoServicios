@@ -1,4 +1,5 @@
-﻿using SistemaDemoServicios.Utils;
+﻿using SistemaDemoServicios.Models;
+using SistemaDemoServicios.Utils;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -18,16 +19,21 @@ namespace SistemaDemoServicios.Controllers.API
 
         // GET: api/Agentes
         [Route("GetAgentes")]
-        public async Task<List<Agente>> GetAgentes()
+        public async Task<List<AgenteRequest>> GetAgentes()
         {
-            return await db.Agente.ToListAsync();
+            return await db.Agente.Select(y=> new AgenteRequest {Id=y.Id,Nombre=y.Nombre }).ToListAsync();
         }
       
         [HttpPost]
         [Route("GetAgente")]
         public async Task<Response> GetAgente([FromBody] Agente agente)
         {
-            var resultAgente =await db.Agente.Where(x=>x.Id==agente.Id).FirstOrDefaultAsync();
+            var resultAgente =await db.Agente.Where(x=>x.Id==agente.Id).Select(y=> new AgenteRequest
+                                    {
+                                        Id=y.Id,
+                                        Nombre=y.Nombre,
+                                    }
+                                    ).FirstOrDefaultAsync();
             if (resultAgente == null)
             {
                 return new Response { IsSuccess=false};

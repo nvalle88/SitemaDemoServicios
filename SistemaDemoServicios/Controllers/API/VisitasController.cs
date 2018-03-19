@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using SistemaDemoServicios;
 using System.Threading.Tasks;
 using SistemaDemoServicios.Utils;
+using SistemaDemoServicios.Models;
 
 namespace SistemaDemoServicios.Controllers.API
 {
@@ -28,18 +29,38 @@ namespace SistemaDemoServicios.Controllers.API
 
         [HttpPost]
         [Route("GetVisitasDiarias")]
-        public async Task<List<Visita>> GetVisitasDiarias([FromBody] Agente agente)
+        public async Task<List<PuntosRequest>> GetVisitasDiarias([FromBody] VisitaDiaria visitaDiaria)
         {
-            DateTime fechaActual = DateTime.Now;
+            DateTime fechaActual = visitaDiaria.Fecha;
             var listaVisitas = await db.Visita
-                             .Where(x => x.IdAgente == agente.Id
+                             .Where(x => x.IdAgente == visitaDiaria.IdAgente
                                 && x.Fecha.Day==fechaActual.Day 
                                 && x.Fecha.Month==fechaActual.Month   
                                 && x.Fecha.Year==fechaActual.Year)
                              .Include(x=>x.Cliente)
                              .OrderBy(x => x.Fecha)
+                             .Select(y=> new PuntosRequest
+                                        {
+                                 lat = (Double)y.Cliente.Lat,
+                                 lng = (Double)y.Cliente.Lon,
+                                 Fecha = y.Fecha,
+                                 NombreUsuario = y.Cliente.Nombre,
+                                 Direccion = y.Cliente.Direccion,
+                                 PersonaContacto = y.Cliente.PersonaContacto,
+                                 Ruc = y.Cliente.Ruc,
+                                 Telefono = y.Cliente.Telefono,
+                                 Tipo = y.Tipo == 1 ? "Venta" : "Visita",
+                                 Valor = y.Valor,
+
+                             }
+                             )
                              .ToListAsync();
             return listaVisitas;
+
+
+
+
+
         }
 
         // GET: api/Visitas/5

@@ -25,28 +25,20 @@ namespace SistemaDemoServicios.Controllers.API
         [HttpGet]
         public async Task <List<ClienteRequest>> GetCliente()
         {
-            List<ClienteRequest> ClientesRequest = new List<ClienteRequest>();
-            var clientes = await db.Cliente.ToListAsync();
-            foreach (Cliente cliente in clientes)
+            var clientes = await db.Cliente.Select(y=> new ClienteRequest
             {
-                if (cliente != null)
-                {
-
-                    ClienteRequest clienteRequest = new ClienteRequest
-                    {
-                        Id = cliente.Id,
-                        Direccion =cliente.Direccion,
-                        Lat = cliente.Lat,
-                        Lon = cliente.Lon,
-                        Nombre=cliente.Nombre,
-                        Ruc=cliente.Ruc,
-                        PersonaContacto=cliente.PersonaContacto,
-                        Telefono=cliente.Telefono
-                    };
-                    ClientesRequest.Add(clienteRequest);
-                }
+                Id = y.Id,
+                Direccion = y.Direccion,
+                Lat = y.Lat,
+                Lon = y.Lon,
+                Nombre = y.Nombre,
+                Ruc = y.Ruc,
+                PersonaContacto = y.PersonaContacto,
+                Telefono = y.Telefono
             }
-            return ClientesRequest;
+            
+            ).ToListAsync();
+            return clientes;
         }
        // [Route("Getcliente")]
        // [HttpGet]

@@ -156,6 +156,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\API\InformesController.cs" />
     <Compile Include="ModeloDatos\Administrador.cs" />
     <Compile Include="ModeloDatos\Agente.cs" />
     <Compile Include="ModeloDatos\AgenteCliente.cs" />
@@ -181,8 +182,11 @@
     <Compile Include="ModeloDatos\Informe.cs" />
     <Compile Include="ModeloDatos\LogPosition.cs" />
     <Compile Include="ModeloDatos\ModeloDatos.cs" />
+    <Compile Include="Models\AgenteRequest.cs" />
     <Compile Include="Models\ClienteRequest.cs" />
     <Compile Include="Models\Posicion.cs" />
+    <Compile Include="Models\PuntosRequest.cs" />
+    <Compile Include="Models\VisitaDiaria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ModeloDatos\Supervisor.cs" />
     <Compile Include="Utils\GeoUtils\GeoUtils.cs" />
