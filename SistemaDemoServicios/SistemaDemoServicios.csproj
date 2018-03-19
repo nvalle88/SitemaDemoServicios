@@ -181,9 +181,6 @@
     <Compile Include="ModeloDatos\Informe.cs" />
     <Compile Include="ModeloDatos\LogPosition.cs" />
     <Compile Include="ModeloDatos\ModeloDatos.cs" />
-    <Compile Include="LogPosition.cs">
-      <DependentUpon>Contexto.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ClienteRequest.cs" />
     <Compile Include="Models\Posicion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
