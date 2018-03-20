@@ -178,6 +178,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModeloDatos\FirmaRequest.cs" />
     <Compile Include="ModeloDatos\HorarioTrabajo.cs" />
     <Compile Include="ModeloDatos\Informe.cs" />
     <Compile Include="ModeloDatos\LogPosition.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Models\VisitaDiaria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ModeloDatos\Supervisor.cs" />
+    <Compile Include="Utils\FileHelper.cs" />
     <Compile Include="Utils\GeoUtils\GeoUtils.cs" />
     <Compile Include="Utils\GeoUtils\Position.cs" />
     <Compile Include="Utils\Response.cs" />
