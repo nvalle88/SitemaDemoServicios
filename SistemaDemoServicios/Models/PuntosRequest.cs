@@ -20,5 +20,10 @@ namespace SistemaDemoServicios.Models
             public string Tipo { get; set; }
             public double? Valor { get; set; }
 
+            public Informe Informe { get; set; }
+
+      
+
+
     }
 }

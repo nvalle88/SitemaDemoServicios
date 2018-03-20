@@ -185,6 +185,7 @@
     <Compile Include="ModeloDatos\ModeloDatos.cs" />
     <Compile Include="Models\AgenteRequest.cs" />
     <Compile Include="Models\ClienteRequest.cs" />
+    <Compile Include="Models\InformeRequest.cs" />
     <Compile Include="Models\Posicion.cs" />
     <Compile Include="Models\PuntosRequest.cs" />
     <Compile Include="Models\VisitaDiaria.cs" />
