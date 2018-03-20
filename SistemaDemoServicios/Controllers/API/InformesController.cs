@@ -15,47 +15,34 @@ using SistemaDemoServicios.Utils;
 
 namespace SistemaDemoServicios.Controllers.API
 {
-    [RoutePrefix("api/Informe")]
+    [RoutePrefix("api/Informes")]
 
     public class InformesController : ApiController
     {
         private SistemaEjemploEntities db = new SistemaEjemploEntities();
-
-
         //POST: api/Informe/Subir
         [HttpPost]
         [Route("Subir")]
         public Response SubirFirma(FirmaRequest firmaRequest)
         {
             db.Configuration.ProxyCreationEnabled = false;
-
-
             var stream = new MemoryStream(firmaRequest.Array);
-
             var file = string.Format("{0}.png", firmaRequest.Id);
             var folder = "~/Content/Firmas";
-            var fullPath = string.Format("{0}/{1}", folder, file);
-
-         
-
+            var fullPath = string.Format("{0}/{1}", folder, file);        
             var response = FileHelper.UploadFoto(stream, folder, file);
-
             if (!response)
             {
                 BadRequest("Imagen de la Firma no se pudo subir al servidor...");
             }
-
             return new Response
             {
                 Result = true,
                 Message= fullPath,
-
             };
 
-        }
+        }      
        
-
-
         // GET: api/Informes
         public IQueryable<Informe> GetInforme()
         {

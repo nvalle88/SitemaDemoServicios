@@ -115,6 +115,7 @@ namespace SistemaDemoServicios.Controllers.API
         [Route("GetNearClients")]
         public async Task<List<Cliente>> GetClientForPosition(Position posicion)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             var clientes = await db.Cliente.ToListAsync();
             List<Cliente> Clientes = new List<Cliente>();
 
