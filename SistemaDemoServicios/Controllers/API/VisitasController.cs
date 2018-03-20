@@ -16,6 +16,7 @@ using SistemaDemoServicios.Models;
 namespace SistemaDemoServicios.Controllers.API
 {
 
+
     [RoutePrefix("api/Visitas")]
     public class VisitasController : ApiController
     {
@@ -31,16 +32,16 @@ namespace SistemaDemoServicios.Controllers.API
         [Route("GetVisitasDiarias")]
         public async Task<List<PuntosRequest>> GetVisitasDiarias([FromBody] VisitaDiaria visitaDiaria)
         {
+            db.Configuration.ProxyCreationEnabled = false;
             DateTime fechaActual = visitaDiaria.Fecha;
             var listaVisitas = await db.Visita
                              .Where(x => x.IdAgente == visitaDiaria.IdAgente
-                                && x.Fecha.Day==fechaActual.Day 
-                                && x.Fecha.Month==fechaActual.Month   
-                                && x.Fecha.Year==fechaActual.Year)
-                             .Include(x=>x.Cliente)
+                                && x.Fecha.Day == fechaActual.Day
+                                && x.Fecha.Month == fechaActual.Month
+                                && x.Fecha.Year == fechaActual.Year)
                              .OrderBy(x => x.Fecha)
-                             .Select(y=> new PuntosRequest
-                                        {
+                             .Select(y => new PuntosRequest
+                             {
                                  lat = (Double)y.Cliente.Lat,
                                  lng = (Double)y.Cliente.Lon,
                                  Fecha = y.Fecha,
@@ -51,9 +52,9 @@ namespace SistemaDemoServicios.Controllers.API
                                  Telefono = y.Cliente.Telefono,
                                  Tipo = y.Tipo == 1 ? "Venta" : "Visita",
                                  Valor = y.Valor,
-
+                                 Informe = y.Informe.Where(u => u.IdVisita == y.Id).FirstOrDefault(),
                              }
-                             )
+                             ).OrderBy(y=>y.Fecha)
                              .ToListAsync();
             return listaVisitas;
 
