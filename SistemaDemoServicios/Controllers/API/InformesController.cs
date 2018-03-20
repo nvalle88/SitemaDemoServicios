@@ -15,6 +15,8 @@ using SistemaDemoServicios.Utils;
 
 namespace SistemaDemoServicios.Controllers.API
 {
+    [RoutePrefix("api/Informe")]
+
     public class InformesController : ApiController
     {
         private SistemaEjemploEntities db = new SistemaEjemploEntities();
@@ -51,7 +53,7 @@ namespace SistemaDemoServicios.Controllers.API
             };
 
         }
-
+       
 
 
         // GET: api/Informes
