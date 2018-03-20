@@ -32,7 +32,7 @@ namespace SistemaDemoServicios.Controllers.API
 
             var stream = new MemoryStream(firmaRequest.Array);
 
-            var file = string.Format("{0}.jpg", firmaRequest.Id);
+            var file = string.Format("{0}.png", firmaRequest.Id);
             var folder = "~/Content/Firmas";
             var fullPath = string.Format("{0}/{1}", folder, file);
 
